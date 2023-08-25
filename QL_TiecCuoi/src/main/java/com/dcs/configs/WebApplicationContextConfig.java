@@ -4,10 +4,18 @@
  */
 package com.dcs.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,7 +29,13 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = "com.dcs.controllers")
+@ComponentScan(basePackages = {
+    "com.dcs.controllers",
+    "com.dcs.repository",
+    "com.dcs.service"
+})
+
+@PropertySource("classpath:configs.properties")
 public class WebApplicationContextConfig implements WebMvcConfigurer {
 
     @Override
@@ -39,6 +53,47 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/pages/");
         resolver.setSuffix(".jsp");
         return resolver;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver
+                = new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("UTF-8");
+        return resolver;
+    }
+
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", "da7tpv6qw",
+                        "api_key", "223983132859469",
+                        "api_secret", "VOh4K_yl-4SUDR5BgO-NLefQLJQ",
+                        "secure", true));
+        return cloudinary;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource m = new ResourceBundleMessageSource();
+
+        m.setBasenames("messages");
+
+        return m;
+    }
+
+    @Bean(name = "validator")
+    public LocalValidatorFactoryBean validator() {
+        LocalValidatorFactoryBean bean
+                = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
+    }
+
+    @Override
+    public Validator getValidator() {
+        return validator();
     }
 
 }

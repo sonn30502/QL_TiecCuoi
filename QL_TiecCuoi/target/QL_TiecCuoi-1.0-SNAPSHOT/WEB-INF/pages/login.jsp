@@ -14,7 +14,7 @@
     </div>
 </c:if>
 
-<c:if test="${param.accessDenied}">
+<c:if test="${param.accessDenied != null}">
     <div class="alert alert-danger">
         Bạn không có quyền truy cập!!!
     </div>
