@@ -15,7 +15,7 @@ public interface BranchRepository {
 
     List<Branch> getAllBranch();
 
-    Branch getBranchById(Integer branchID);
+    Branch getBranchById(int branchID);
 
     boolean addOrUpdateBranch(Branch branch);
 

@@ -4,6 +4,7 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -19,9 +20,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -59,12 +62,20 @@ public class Halls implements Serializable {
     @Column(name = "priceWeekend")
     private BigDecimal priceWeekend;
     @OneToMany(mappedBy = "hallID")
+    @JsonIgnore
     private Set<Booking> bookingSet;
     @OneToMany(mappedBy = "hallID")
+    @JsonIgnore
     private Set<Event> eventSet;
     @JoinColumn(name = "branchID", referencedColumnName = "branchID")
     @ManyToOne
     private Branch branchID;
+    @Size(max = 200)
+    @Column(name = "image")
+    private String image;
+
+    @Transient
+    private MultipartFile file;
 
     public Halls() {
     }
@@ -171,5 +182,33 @@ public class Halls implements Serializable {
     public String toString() {
         return "com.dcs.pojos.Halls[ hallID=" + hallID + " ]";
     }
-    
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

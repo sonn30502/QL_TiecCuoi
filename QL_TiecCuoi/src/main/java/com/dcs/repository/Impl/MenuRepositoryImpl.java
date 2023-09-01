@@ -50,23 +50,23 @@ public class MenuRepositoryImpl implements MenuRepository {
 
             String kw = params.get("kw");
             if (kw != null && !kw.isEmpty()) {
-                predicates.add(b.like(root.get("name"), String.format("%%%s%%", kw)));
+                predicates.add(b.like(root.get("menuName"), String.format("%%%s%%", kw)));
             }
 
-            String fromPrice = params.get("fromPrice");
-            if (fromPrice != null && !fromPrice.isEmpty()) {
-                predicates.add(b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice)));
-            }
-
-            String toPrice = params.get("toPrice");
-            if (toPrice != null && !toPrice.isEmpty()) {
-                predicates.add(b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice)));
-            }
-
-            String branchId = params.get("branchID");
-            if (branchId != null && !branchId.isEmpty()) {
-                predicates.add(b.equal(root.get("branchID"), Integer.parseInt(branchId)));
-            }
+//            String fromPrice = params.get("fromPrice");
+//            if (fromPrice != null && !fromPrice.isEmpty()) {
+//                predicates.add(b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice)));
+//            }
+//
+//            String toPrice = params.get("toPrice");
+//            if (toPrice != null && !toPrice.isEmpty()) {
+//                predicates.add(b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice)));
+//            }
+//
+//            String branchId = params.get("branchID");
+//            if (branchId != null && !branchId.isEmpty()) {
+//                predicates.add(b.equal(root.get("branchID"), Integer.parseInt(branchId)));
+//            }
             q.where(b.and(predicates.toArray(new Predicate[0])));
         }
 
@@ -123,14 +123,9 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     public boolean deleteMenu(int id) {
         Session session = this.factory.getObject().getCurrentSession();
-        Menu menu = this.getMenuById(id);
-        try {
-            session.delete(menu);
-            return true;
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        Query q = session.createQuery("DELETE FROM Menu WHERE menuID = :id");
+        q.setParameter("id", id);
+        int result = q.executeUpdate();
+        return result > 0;
     }
-
 }

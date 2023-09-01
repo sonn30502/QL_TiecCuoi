@@ -26,25 +26,23 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private BranchRepository branchRepository;
-    
+
     @Autowired
     private Cloudinary cloudinary;
-
 
     @Override
     public List<Branch> getAllBranch() {
         return branchRepository.getAllBranch();
     }
-    
 
     @Override
-    public Branch getBranchById(Integer branchID) {
-         return branchRepository.getBranchById(branchID);
+    public Branch getBranchById(int branchID) {
+        return branchRepository.getBranchById(branchID);
     }
 
     @Override
     public boolean addOrUpdateBranch(Branch branch) {
-         if(!branch.getFile().isEmpty()){
+        if (!branch.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(branch.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
                 branch.setImage(res.get("secure_url").toString());

@@ -10,7 +10,7 @@
 
 <h1 class="text-center text-info mt-1">QUẢN LÝ CHI NHÁNH</h1>
 
-<c:url value="/branches" var="action" />
+<c:url value="/branch" var="action" />
 <form:form method="post" action="${action}" modelAttribute="branch" enctype="multipart/form-data">
     <form:errors path="*" element="div" cssClass="alert alert-danger" />
     <form:hidden path="branchID" />

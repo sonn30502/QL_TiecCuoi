@@ -15,8 +15,9 @@ public interface BranchService {
 
     List<Branch> getAllBranch();
 
-    Branch getBranchById(Integer branchID);
+    Branch getBranchById(int branchID);
 
     boolean addOrUpdateBranch(Branch branch);
 
+  
 }

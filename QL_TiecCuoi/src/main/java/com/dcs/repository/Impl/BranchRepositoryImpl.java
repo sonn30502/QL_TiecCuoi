@@ -5,9 +5,7 @@
 package com.dcs.repository.Impl;
 
 import com.dcs.pojos.Branch;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -27,8 +25,6 @@ import com.dcs.repository.BranchRepository;
 @PropertySource("classpath:configs.properties")
 public class BranchRepositoryImpl implements BranchRepository {
 
-    private static final Map<Integer, Branch> branch = new HashMap<>();
-
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -40,7 +36,7 @@ public class BranchRepositoryImpl implements BranchRepository {
     }
 
     @Override
-    public Branch getBranchById(Integer branchID) {
+    public Branch getBranchById(int branchID) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Branch.class, branchID);
     }

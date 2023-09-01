@@ -6,15 +6,20 @@ package com.dcs.service;
 
 import com.dcs.pojos.User;
 import java.util.List;
+import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author ASUS
  */
+public interface UserService extends UserDetailsService {
 
-public interface UserService extends UserDetailsService{
-    boolean addUser(User user);
-    List<User> getUsers(String username);
-    
+    User addUser(Map<String, String> params, MultipartFile profileImage);
+
+    boolean authUser(String username, String password);
+
+    User getUsers(String username);
+
 }

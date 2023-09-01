@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,10 +29,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableWebSecurity
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
+    "com.dcs.controllers",
     "com.dcs.repository",
-    "com.dcs.service",
-    "com.dcs.controllers"
+    "com.dcs.service"
 })
+@Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -64,9 +66,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.exceptionHandling().accessDeniedPage("/login?accessDenied");
 
-        http.authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
-
+//        http.authorizeRequests().antMatchers("/").permitAll()
+//                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
         http.csrf().disable();
     }
 

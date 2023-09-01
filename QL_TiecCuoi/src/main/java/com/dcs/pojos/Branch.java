@@ -4,6 +4,7 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -17,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,9 +47,12 @@ public class Branch implements Serializable {
     @Basic(optional = false)
     @Column(name = "branchID")
     private Integer branchID;
-    @Size(max = 100)
+
+    @NotNull(message = "{branch.branchName.notNull}")
+    @Size(min = 5, max = 100, message = "{branch.branchName.lenErr}")
     @Column(name = "branchName")
     private String branchName;
+    @NotNull(message = "{branch.address.notNull}")
     @Size(max = 200)
     @Column(name = "address")
     private String address;
@@ -57,14 +63,19 @@ public class Branch implements Serializable {
     @Column(name = "image")
     private String image;
     @OneToMany(mappedBy = "branchID")
+    @JsonIgnore
     private Set<Statistic> statisticSet;
     @OneToMany(mappedBy = "branchID")
+    @JsonIgnore
     private Set<Service> serviceSet;
     @OneToMany(mappedBy = "branchID")
+    @JsonIgnore
     private Set<Event> eventSet;
     @OneToMany(mappedBy = "branchID")
+    @JsonIgnore
     private Set<Menu> menuSet;
     @OneToMany(mappedBy = "branchID")
+    @JsonIgnore
     private Set<Halls> hallsSet;
 
     @Transient

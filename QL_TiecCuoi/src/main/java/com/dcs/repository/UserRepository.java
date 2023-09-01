@@ -11,8 +11,13 @@ import java.util.List;
  *
  * @author ASUS
  */
-
 public interface UserRepository {
-    boolean addUser(User user);
-    List<User> getUsers(String username);
+
+    User getUserByUsername(String username);
+
+    User addUser(User user);
+
+//    List<User> getUsers(String username);
+
+    boolean authUser(String username, String password);
 }

@@ -9,7 +9,7 @@
 <c:url value="/" var="action" />
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">E-commerce Website</a>
+        <a class="navbar-brand" href="#">WEDDING</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -38,14 +38,29 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<c:url value='/register' />">Đăng ký</a>
                         </li>
+
                     </c:otherwise>
                 </c:choose>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value='/list_halls' />">Sảnh cưới</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value='/branch' />">Chi nhánh</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value='/menu' />">Menu</a>
+                </li>
             </ul>
 
-            <form class="d-flex" action="${action}">
+            <form class="d-flex" action="<c:url value='/list_halls' />">
                 <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </form>
+
+           
+
         </div>
     </div>
 </nav>

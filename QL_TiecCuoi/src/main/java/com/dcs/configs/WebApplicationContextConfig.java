@@ -6,12 +6,16 @@ package com.dcs.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.dcs.formatters.BranchFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -37,11 +41,19 @@ import org.springframework.web.servlet.view.JstlView;
 
 @PropertySource("classpath:configs.properties")
 public class WebApplicationContextConfig implements WebMvcConfigurer {
+    
+    @Autowired
+    private Environment env;
 
     @Override
     public void configureDefaultServletHandling(
             DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+    
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new BranchFormatter());
     }
 
     @Bean
@@ -67,9 +79,9 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
                 = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "da7tpv6qw",
-                        "api_key", "223983132859469",
-                        "api_secret", "VOh4K_yl-4SUDR5BgO-NLefQLJQ",
+                        "cloud_name", this.env.getProperty("cloudinary.cloud_name"),
+                        "api_key", this.env.getProperty("cloudinary.api_id"),
+                        "api_secret", this.env.getProperty("cloudinary.api_secret"),
                         "secure", true));
         return cloudinary;
     }

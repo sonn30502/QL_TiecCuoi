@@ -5,6 +5,7 @@
 package com.dcs.controllers;
 
 import com.dcs.pojos.Menu;
+import com.dcs.service.BranchService;
 import com.dcs.service.MenuService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +27,38 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping("admin/menu")
+    @Autowired
+    private BranchService branchService;
+
+    @GetMapping("/menu")
     public String list(Model model) {
         model.addAttribute("menu", new Menu());
+        model.addAttribute("branchList", branchService.getAllBranch());
         return "menu";
     }
 
-    @GetMapping("admin/menu/{id}")
+    @GetMapping("/menu/{id}")
     public String update(Model model, @PathVariable(value = "id") int id) {
         model.addAttribute("menu", this.menuService.getMenuById(id));
+        model.addAttribute("branchList", branchService.getAllBranch());
         return "menu";
     }
 
-    @PostMapping("admin/menu")
-    public String add(@ModelAttribute(value = "menu") @Valid Menu menu,
+    @PostMapping("/menu")
+    public String add(Model model, @ModelAttribute(value = "menu") @Valid Menu menu,
             BindingResult rs) {
         if (!rs.hasErrors()) {
             if (menuService.addOrUpdateMenu(menu) == true) {
-                return "redirect:/";
+                return "redirect:/menu";
             }
         }
-
+        model.addAttribute("branchList", branchService.getAllBranch());
         return "menu";
+    }
+
+    @GetMapping("/menu/delete/{id}")
+    public String delete(@PathVariable(value = "id") int id) {
+        menuService.deleteMenu(id);
+        return "redirect:/";
     }
 }

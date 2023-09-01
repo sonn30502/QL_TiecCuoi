@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -51,11 +53,13 @@ public class Menu implements Serializable {
     @Basic(optional = false)
     @Column(name = "menuID")
     private Integer menuID;
-    @Size(max = 100)
+    @NotNull(message = "{menu.menuName.notNull}")
+    @Size(min = 5, max = 100, message = "{menu.menuName.lenErr}")
     @Column(name = "menuName")
     private String menuName;
+    @NotNull(message = "{menu.menuName.notNull}")
     @Lob
-    @Size(max = 65535)
+    @Size(min = 10, max = 255, message = "{menu.desc.lenErr}")
     @Column(name = "description")
     private String description;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

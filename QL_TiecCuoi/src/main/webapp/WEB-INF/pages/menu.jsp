@@ -34,7 +34,7 @@
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:select class="form-select" id="branch" name="branch" path="branchID">
-            <c:forEach items="${branchID}" var="b">
+            <c:forEach items="${branchList}" var="b">
                 <c:choose>
                     <c:when test="${b.branchID == menu.branchID.branchID}">
                         <option value="${b.branchID}" selected>${b.branchName}</option>

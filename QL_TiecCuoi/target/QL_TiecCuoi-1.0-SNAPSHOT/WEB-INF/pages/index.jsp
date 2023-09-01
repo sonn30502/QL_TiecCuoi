@@ -32,6 +32,7 @@
                 <th>ID</th>
                 <th>Tên món</th>
                 <th>Giá</th>
+                <th>Chi nhánh</th>
                 <th></th>
             </tr>
         </thead>
@@ -44,10 +45,12 @@
                     <td>${m.menuID}</td>
                     <td>${m.menuName}</td>
                     <td>${m.price}</td>
+                    <td>${m.branchID.branchName}</td>
+
                     <td>
-                        <c:url value="/api/menu/${m.menuID}" var="apiDel" />
-                        <a href="<c:url value="/menu/${m.menuID}" />" class="btn btn-success">Cập nhật</a>
-                        <button class="btn btn-danger" onclick="delPro('${apiDel}', ${m.menuID})">Xóa</button>
+                        <a href="<c:url value='/menu/${m.menuID}' />" class="btn btn-success">Cập nhật</a>
+                        <a href="<c:url value='/menu/delete/${m.menuID}' />" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+
                     </td>
                 </tr>
             </c:forEach>

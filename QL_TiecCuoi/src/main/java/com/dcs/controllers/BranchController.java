@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.dcs.service.BranchService;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -32,6 +33,12 @@ public class BranchController {
 
     }
 
+    @GetMapping("/branch/{id}")
+    public String update(Model model, @PathVariable(value = "id") int id) {
+        model.addAttribute("branch", this.branchService.getBranchById(id));
+        return "branch";
+    }
+
     @PostMapping("/branch")
     public String add(@ModelAttribute(value = "branch") @Valid Branch branch,
             BindingResult rs) {
@@ -40,6 +47,7 @@ public class BranchController {
                 return "redirect:/branch";
             }
         }
+        
         return "branch";
     }
 

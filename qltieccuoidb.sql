@@ -1,105 +1,344 @@
--- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `qltieccuoidb` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `qltieccuoidb`;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: qltieccuoidb
 -- ------------------------------------------------------
--- Server version	8.0.15
-ALTER SCHEMA `qltieccuoidb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+-- Server version	8.0.33
 
-CREATE TABLE Branches (
-    branchID INT AUTO_INCREMENT PRIMARY KEY,
-    branchName VARCHAR(100),
-    address VARCHAR(200),
-    phoneNumber VARCHAR(20)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE TABLE User (
-  userID INT AUTO_INCREMENT PRIMARY KEY,
-  firstName VARCHAR(100) NOT NULL,
-  lastName VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  phoneNumber VARCHAR(20),
-  profileImage VARCHAR(200),
-  username VARCHAR(45) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  userRole VARCHAR(45),
-  UNIQUE(email),
-  UNIQUE(username)
-);
+--
+-- Table structure for table `booking`
+--
 
-CREATE TABLE Halls (
-    hallID INT AUTO_INCREMENT PRIMARY KEY,
-    branchID INT,
-    hallName VARCHAR(100),
-    priceMorning DECIMAL(10, 2),
-    priceAfternoon DECIMAL(10, 2),
-    priceEvening DECIMAL(10, 2),
-    priceWeekend DECIMAL(10, 2),
-    FOREIGN KEY (branchID) REFERENCES Branches(branchID)
-);
+DROP TABLE IF EXISTS `booking`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `booking` (
+  `bookingID` int NOT NULL AUTO_INCREMENT,
+  `eventID` int DEFAULT NULL,
+  `hallID` int DEFAULT NULL,
+  `menuID` int DEFAULT NULL,
+  `serviceID` int DEFAULT NULL,
+  `UserID` int DEFAULT NULL,
+  PRIMARY KEY (`bookingID`),
+  KEY `eventID` (`eventID`),
+  KEY `hallID` (`hallID`),
+  KEY `menuID` (`menuID`),
+  KEY `serviceID` (`serviceID`),
+  KEY `UserID` (`UserID`),
+  CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`),
+  CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`hallID`) REFERENCES `halls` (`hallID`),
+  CONSTRAINT `booking_ibfk_3` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`),
+  CONSTRAINT `booking_ibfk_4` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`),
+  CONSTRAINT `booking_ibfk_5` FOREIGN KEY (`UserID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE Menus (
-    menuID INT AUTO_INCREMENT PRIMARY KEY,
-    branchID INT,
-    menuName VARCHAR(100),
-    description TEXT,
-    price DECIMAL(10, 2),
-    FOREIGN KEY (branchID) REFERENCES Branches(branchID)
-);
+--
+-- Dumping data for table `booking`
+--
 
-CREATE TABLE Services (
-    serviceID INT AUTO_INCREMENT PRIMARY KEY,
-    branchID INT,
-    serviceName VARCHAR(100),
-    description TEXT,
-    price DECIMAL(10, 2),
-    FOREIGN KEY (branchID) REFERENCES Branches(branchID)
-);
+LOCK TABLES `booking` WRITE;
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE Events (
-    eventID INT AUTO_INCREMENT PRIMARY KEY,
-    branchID INT,
-    hallID INT,
-    menuID INT,
-    serviceID INT,
-    userID INT,
-    eventDate DATE,
-    totalPrice DECIMAL(10, 2),
-    status ENUM('Đã xác nhận', 'Chưa xác nhận', 'Đã hủy'),
-    FOREIGN KEY (branchID) REFERENCES Branches(branchID),
-    FOREIGN KEY (hallID) REFERENCES Halls(hallID),
-    FOREIGN KEY (menuID) REFERENCES Menus(menuID),
-    FOREIGN KEY (serviceID) REFERENCES Services(serviceID),
-    FOREIGN KEY (userID) REFERENCES User(userID)
-);
+--
+-- Table structure for table `branch`
+--
 
-CREATE TABLE Feedbacks (
-    feedbackID INT AUTO_INCREMENT PRIMARY KEY,
-    eventID INT,
-    feedbackDate DATE,
-    feedbackContent TEXT,
-    rating INT,
-    FOREIGN KEY (eventID) REFERENCES Events(eventID)
-);
+DROP TABLE IF EXISTS `branch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `branch` (
+  `branchID` int NOT NULL AUTO_INCREMENT,
+  `branchName` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `address` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phoneNumber` varchar(20) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`branchID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE Payments (
-    paymentID INT AUTO_INCREMENT PRIMARY KEY,
-    eventID INT,
-    paymentDate DATE,
-    paymentMethod ENUM('Trực tiếp', 'Momo', 'ZaloPay'),
-    invoiceNumber VARCHAR(100),
-    details TEXT,
-    FOREIGN KEY (eventID) REFERENCES Events(eventID)
-);
+--
+-- Dumping data for table `branch`
+--
 
-CREATE TABLE Statistics (
-    statisticID INT AUTO_INCREMENT PRIMARY KEY,
-    branchID INT,
-    month INT,
-    quarter INT,
-    year INT,
-    eventCount INT,
-    revenue DECIMAL(10, 2),
-    FOREIGN KEY (branchID) REFERENCES Branches(branchID)
-);
+LOCK TABLES `branch` WRITE;
+/*!40000 ALTER TABLE `branch` DISABLE KEYS */;
+INSERT INTO `branch` VALUES (2,'THE ADORA CENTER','431 Hoàng Văn Thụ, Phường 4, Quận Tân Bình','18001001','https://res.cloudinary.com/da7tpv6qw/image/upload/v1692969358/mv2zk3uqb2lnc8pacdzn.jpg'),(6,'','','',''),(7,'ầdasdsadasd','','',''),(8,'GRAND PALACE','142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM','18001002','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693322240/lvvnta5xikzegg2gpjgy.jpg');
+/*!40000 ALTER TABLE `branch` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `event`
+--
 
+DROP TABLE IF EXISTS `event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `event` (
+  `eventID` int NOT NULL AUTO_INCREMENT,
+  `branchID` int DEFAULT NULL,
+  `hallID` int DEFAULT NULL,
+  `menuID` int DEFAULT NULL,
+  `serviceID` int DEFAULT NULL,
+  `userID` int DEFAULT NULL,
+  `eventDate` date DEFAULT NULL,
+  `totalPrice` decimal(10,2) DEFAULT NULL,
+  `status` enum('Đã xác nhận','Chưa xác nhận','Đã hủy') COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`eventID`),
+  KEY `branchID` (`branchID`),
+  KEY `hallID` (`hallID`),
+  KEY `menuID` (`menuID`),
+  KEY `serviceID` (`serviceID`),
+  KEY `userID` (`userID`),
+  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`),
+  CONSTRAINT `event_ibfk_2` FOREIGN KEY (`hallID`) REFERENCES `halls` (`hallID`),
+  CONSTRAINT `event_ibfk_3` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`),
+  CONSTRAINT `event_ibfk_4` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`),
+  CONSTRAINT `event_ibfk_5` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `event`
+--
+
+LOCK TABLES `event` WRITE;
+/*!40000 ALTER TABLE `event` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `feedbackID` int NOT NULL AUTO_INCREMENT,
+  `eventID` int DEFAULT NULL,
+  `feedbackDate` date DEFAULT NULL,
+  `feedbackContent` text COLLATE utf8mb3_unicode_ci,
+  `rating` int DEFAULT NULL,
+  PRIMARY KEY (`feedbackID`),
+  KEY `eventID` (`eventID`),
+  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `halls`
+--
+
+DROP TABLE IF EXISTS `halls`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `halls` (
+  `hallID` int NOT NULL AUTO_INCREMENT,
+  `branchID` int DEFAULT NULL,
+  `hallName` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `priceMorning` decimal(10,2) DEFAULT NULL,
+  `priceAfternoon` decimal(10,2) DEFAULT NULL,
+  `priceEvening` decimal(10,2) DEFAULT NULL,
+  `priceWeekend` decimal(10,2) DEFAULT NULL,
+  `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`hallID`),
+  KEY `branchID` (`branchID`),
+  CONSTRAINT `halls_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `halls`
+--
+
+LOCK TABLES `halls` WRITE;
+/*!40000 ALTER TABLE `halls` DISABLE KEYS */;
+INSERT INTO `halls` VALUES (1,8,'SẢNH PLATIN',10.00,20.00,30.00,100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693319463/fu0uhuymej4adfdo4dvs.jpg'),(3,2,'SẢNH VENUS',20.00,40.00,60.00,80.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392255/rfkql5z5qunxrtep0tgk.jpg'),(5,2,'SẢNH ELITE',40.00,80.00,100.00,120.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392508/oyvqbex14fza9tikfi9f.jpg'),(6,2,'SẢNH MERCURY',10.00,20.00,30.00,40.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398780/hya5vdvommaqdvyrwgzx.jpg'),(7,8,'SẢNH PAVILON',100.00,200.00,300.00,400.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398815/sm1fezantfhzlg73xz9t.jpg'),(8,8,'SẢNH FONTANA',500.00,1000.00,2000.00,3000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398856/vz3dltl8i4d2kw7uhn3w.jpg'),(9,8,'Sảnh bên ngoài',20.00,35.00,41.00,765.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398914/j4ucygox75q9apmfj2cr.jpg');
+/*!40000 ALTER TABLE `halls` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menu`
+--
+
+DROP TABLE IF EXISTS `menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menu` (
+  `menuID` int NOT NULL AUTO_INCREMENT,
+  `branchID` int DEFAULT NULL,
+  `menuName` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb3_unicode_ci,
+  `price` decimal(10,2) DEFAULT NULL,
+  `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `createdDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`menuID`),
+  KEY `branchID` (`branchID`),
+  CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` VALUES (2,8,'Thit cha cay','Mon an yeu thich cua cac dan nhau',100000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692866511/rputb9smtmiapkxrzzae.jpg',NULL),(3,2,'Tôm sốt me','Ăn ngoan như ăn tôm vậy á mng',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692973032/ruc8yitvobuv2e4eypne.jpg',NULL),(4,2,'Xôi đậu đỏ','xôi được làm từ gạo nếp, thêm vào đó là đậu đỏ để nhìn xôi có màu bắt mắt hơn',10000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693073079/jsb7juu0j3qcdfxjkbf8.jpg',NULL),(10,8,'Gà rán ','qsdahdfaxcbcxvcxvxasdzxczxcda',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398589/p7lgmyl8gdbhaz3njlwz.jpg',NULL),(11,2,'mực xào','muc xao chua ngot sieu to khong lo',300.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398615/f85somdgeeg1yqrc1l20.jpg',NULL);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment`
+--
+
+DROP TABLE IF EXISTS `payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment` (
+  `paymentID` int NOT NULL AUTO_INCREMENT,
+  `eventID` int DEFAULT NULL,
+  `paymentDate` date DEFAULT NULL,
+  `paymentMethod` enum('Trực tiếp','Momo','ZaloPay') COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `invoiceNumber` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `details` text COLLATE utf8mb3_unicode_ci,
+  PRIMARY KEY (`paymentID`),
+  KEY `eventID` (`eventID`),
+  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment`
+--
+
+LOCK TABLES `payment` WRITE;
+/*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `service`
+--
+
+DROP TABLE IF EXISTS `service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `service` (
+  `serviceID` int NOT NULL AUTO_INCREMENT,
+  `branchID` int DEFAULT NULL,
+  `serviceName` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb3_unicode_ci,
+  `price` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`serviceID`),
+  KEY `branchID` (`branchID`),
+  CONSTRAINT `service_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `service`
+--
+
+LOCK TABLES `service` WRITE;
+/*!40000 ALTER TABLE `service` DISABLE KEYS */;
+/*!40000 ALTER TABLE `service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `statistic`
+--
+
+DROP TABLE IF EXISTS `statistic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `statistic` (
+  `statisticID` int NOT NULL AUTO_INCREMENT,
+  `branchID` int DEFAULT NULL,
+  `month` int DEFAULT NULL,
+  `quarter` int DEFAULT NULL,
+  `year` int DEFAULT NULL,
+  `eventCount` int DEFAULT NULL,
+  `revenue` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`statisticID`),
+  KEY `branchID` (`branchID`),
+  CONSTRAINT `statistic_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `statistic`
+--
+
+LOCK TABLES `statistic` WRITE;
+/*!40000 ALTER TABLE `statistic` DISABLE KEYS */;
+/*!40000 ALTER TABLE `statistic` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `userID` int NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `lastName` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phoneNumber` varchar(20) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `profileImage` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `username` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `userRole` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`userID`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Son','DC','son111@gmail.com',NULL,NULL,'dcs111','$2a$10$5pQ1TFjM5M4sW6zjvpOTn.pcmf02/.Ev4RT1P5/zkW8YiUIQ5Z4iy','ROLE_USER'),(2,'son','dc','dcson123@gmail.com',NULL,NULL,'dcsAdmin','$2a$10$cPjXr7uQbaAb571rx4T09O75zBycYhj18HgPYFVS5d3sxy.qkVFye','ROLE_ADMIN'),(3,'Há»','Ngá»c Giang','giangho123@gmail.com',NULL,NULL,'giangAdmin','$2a$10$vJvc3Q2V24AbeDcikW3DsO9f/TCykNNjqm63QFBk9n4ZP2FYhA3AO','ROLE_ADMIN'),(6,'dc','s','dcs2@gmail.com',NULL,'','dcs2','$2a$10$rFN0aHCd.atjdfKPL3FL/eT4okJnOTqzuDy.TgUPPzoAM4T5sj4Xu','ROLE_ADMIN'),(7,'n','dcs','sonn@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693301719/k4uhazrc13twebo1i5k3.png','sonn','$2a$10$MiRv6Lqlm/ofj7UsEjafAuqnJSv6ZiO7U01jywzg.rpVPtjWK9CM2','ROLE_USER'),(8,'Hồ Ngọc','Giang','ghn123@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693499987/pdwhpf8nz7te0njxq5ld.jpg','ghn123','$2a$10$VTnxFivVf7Ck2Qu4OnZU2e0TFtu2RQqHDopBf3T.JSo7ewKrsJ/hq','ROLE_USER');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-09-01 13:33:17
