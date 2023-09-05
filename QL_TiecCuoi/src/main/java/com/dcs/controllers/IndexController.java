@@ -4,6 +4,7 @@
  */
 package com.dcs.controllers;
 
+import com.dcs.pojos.Branch;
 import com.dcs.service.MenuService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.dcs.service.BranchService;
+import com.dcs.service.DVService;
 import com.dcs.service.HallsService;
+import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -35,6 +38,9 @@ public class IndexController {
 
     @Autowired
     private BranchService branchService;
+
+    @Autowired
+    private DVService dvService;
 
     @Autowired
     private Environment env;
@@ -61,5 +67,26 @@ public class IndexController {
         long count = this.hallsService.countHall();
         model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
         return "list_halls";
+    }
+
+    @GetMapping("/list_branch")
+    public String list_branch(Model model) {
+        List<Branch> branches = this.branchService.getAllBranch();
+        model.addAttribute("branch", branches);
+
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.branchService.countBranch();
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        return "list_branch";
+    }
+
+    @GetMapping("/list_service")
+    public String list_service(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("service", this.dvService.getAllService(params));
+
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.dvService.countService();
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        return "list_service";
     }
 }

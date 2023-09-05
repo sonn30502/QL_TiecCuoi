@@ -44,11 +44,17 @@ public class BranchController {
             BindingResult rs) {
         if (!rs.hasErrors()) {
             if (branchService.addOrUpdateBranch(branch)) {
-                return "redirect:/branch";
+                return "redirect:/list_branch";
             }
         }
-        
+
         return "branch";
+    }
+
+    @GetMapping("/branch/delete/{id}")
+    public String delete(@PathVariable(value = "id") int id) {
+        branchService.deleteBranch(id);
+        return "redirect:/list_branch";
     }
 
 }

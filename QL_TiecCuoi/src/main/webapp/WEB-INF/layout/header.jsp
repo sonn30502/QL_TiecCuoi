@@ -46,20 +46,24 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value='/branch' />">Chi nhánh</a>
+                    <a class="nav-link" href="<c:url value='/list_branch' />">Chi nhánh</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value='/menu' />">Menu</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value='/list_service' />">Dịch vụ</a>
+                </li>
             </ul>
 
-            <form class="d-flex" action="<c:url value='/list_halls' />">
+            <form class="d-flex" action="<c:url value='/list_service' />">
                 <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </form>
 
-           
+
 
         </div>
     </div>

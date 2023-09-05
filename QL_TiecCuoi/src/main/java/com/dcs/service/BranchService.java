@@ -18,6 +18,10 @@ public interface BranchService {
     Branch getBranchById(int branchID);
 
     boolean addOrUpdateBranch(Branch branch);
+    
+    boolean deleteBranch(int id);
+    
+    Long countBranch();
 
   
 }

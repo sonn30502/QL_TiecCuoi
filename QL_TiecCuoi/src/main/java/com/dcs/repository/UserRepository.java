@@ -5,7 +5,6 @@
 package com.dcs.repository;
 
 import com.dcs.pojos.User;
-import java.util.List;
 
 /**
  *

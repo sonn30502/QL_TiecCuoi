@@ -44,6 +44,36 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/pages/branch.jsp" />
     </definition>
+    
+    <definition name="list_branch" extends="baseLayout">
+        <put-attribute name="title" value="Chi nhánh" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/list_branch.jsp" />
+    </definition>
+    
+    <definition name="service" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị dịch vụ" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/service.jsp" />
+    </definition>
+    
+    <definition name="list_service" extends="baseLayout">
+        <put-attribute name="title" value="Dịnh vụ" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/list_service.jsp" />
+    </definition>
+    
+    <definition name="feedbacks" extends="baseLayout">
+        <put-attribute name="title" value="Phản hồi khách hàng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/feedbacks.jsp" />
+    </definition>
+    
+    <definition name="event" extends="baseLayout">
+        <put-attribute name="title" value="Sự kiện tiệc cưới" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/event.jsp" />
+    </definition>
    
     <definition name="login" extends="baseLayout">
         <put-attribute name="title" value="Đăng Nhập" />

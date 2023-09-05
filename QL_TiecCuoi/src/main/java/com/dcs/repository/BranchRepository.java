@@ -19,4 +19,8 @@ public interface BranchRepository {
 
     boolean addOrUpdateBranch(Branch branch);
 
+    boolean deleteBranch(int id);
+
+    Long countBranch();
+
 }

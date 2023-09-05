@@ -4,6 +4,7 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,7 +25,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -72,8 +72,10 @@ public class Menu implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @OneToMany(mappedBy = "menuID")
+    @JsonIgnore
     private Set<Booking> bookingSet;
     @OneToMany(mappedBy = "menuID")
+    @JsonIgnore
     private Set<Event> eventSet;
     @JoinColumn(name = "branchID", referencedColumnName = "branchID")
     @ManyToOne

@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,9 +24,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.security.core.Transient;
 
 /**
  *
@@ -53,9 +55,10 @@ public class Event implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "totalPrice")
     private BigDecimal totalPrice;
-    @Size(max = 13)
+//    @Size(max = 100)
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private com.dcs.pojos.Event.EventStatus status;
     @OneToMany(mappedBy = "eventID")
     private Set<Feedback> feedbackSet;
     @OneToMany(mappedBy = "eventID")
@@ -77,6 +80,17 @@ public class Event implements Serializable {
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne
     private User userID;
+
+    public void setFeedbackDate(Date parse) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Transient
+    public enum EventStatus {
+        CONFIRMED,
+        PENDING,
+        CANCELLED
+    }
 
     public Event() {
     }
@@ -107,14 +121,6 @@ public class Event implements Serializable {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @XmlTransient
@@ -208,5 +214,19 @@ public class Event implements Serializable {
     public String toString() {
         return "com.dcs.pojos.Event[ eventID=" + eventID + " ]";
     }
-    
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(EventStatus status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the status
+     */
+    public EventStatus getStatus() {
+        return status;
+    }
+
 }

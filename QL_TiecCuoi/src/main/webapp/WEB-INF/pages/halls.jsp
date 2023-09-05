@@ -21,6 +21,12 @@
         <label for="hallName">Tên sảnh cưới</label>
         <form:errors path="hallName" element="div" cssClass="text-danger" />
     </div>
+    <div class="form-floating">
+        <form:textarea class="form-control" id="des" name="text" 
+                       path="description" placeholder="Mô tả"></form:textarea>
+            <label for="des">Mô tả</label>
+        <form:errors path="description" element="div" cssClass="text-danger" />
+    </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="number" class="form-control" 
                     path="priceMorning" id="priceMorning" placeholder="Nhập giá sảnh sáng..." />

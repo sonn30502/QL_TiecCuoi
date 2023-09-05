@@ -73,6 +73,9 @@ public class Halls implements Serializable {
     @Size(max = 200)
     @Column(name = "image")
     private String image;
+    @Size(min = 10, max = 1000)
+    @Column(name = "description")
+    private String description;
 
     @Transient
     private MultipartFile file;
@@ -209,6 +212,20 @@ public class Halls implements Serializable {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

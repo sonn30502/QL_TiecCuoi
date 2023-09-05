@@ -68,7 +68,7 @@ CREATE TABLE `branch` (
   `phoneNumber` varchar(20) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `branch` (
 
 LOCK TABLES `branch` WRITE;
 /*!40000 ALTER TABLE `branch` DISABLE KEYS */;
-INSERT INTO `branch` VALUES (2,'THE ADORA CENTER','431 Hoàng Văn Thụ, Phường 4, Quận Tân Bình','18001001','https://res.cloudinary.com/da7tpv6qw/image/upload/v1692969358/mv2zk3uqb2lnc8pacdzn.jpg'),(6,'','','',''),(7,'ầdasdsadasd','','',''),(8,'GRAND PALACE','142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM','18001002','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693322240/lvvnta5xikzegg2gpjgy.jpg');
+INSERT INTO `branch` VALUES (2,'THE ADORA CENTER','431 Hoàng Văn Thụ, Phường 4, Quận Tân Bình','18001001','https://res.cloudinary.com/da7tpv6qw/image/upload/v1692969358/mv2zk3uqb2lnc8pacdzn.jpg'),(8,'GRAND PALACE','142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM','18001002','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693322240/lvvnta5xikzegg2gpjgy.jpg'),(9,'THE ADORA ATHENA','371 Nguyễn Kiệm, Phường 3, Quận Gò Vấp','18001003','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693581444/dols5dvjcwfxeaqojs3u.jpg');
 /*!40000 ALTER TABLE `branch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,12 +132,12 @@ CREATE TABLE `feedback` (
   `feedbackID` int NOT NULL AUTO_INCREMENT,
   `eventID` int DEFAULT NULL,
   `feedbackDate` date DEFAULT NULL,
-  `feedbackContent` text COLLATE utf8mb3_unicode_ci,
+  `feedbackContent` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
   `rating` int DEFAULT NULL,
   PRIMARY KEY (`feedbackID`),
   KEY `eventID` (`eventID`),
   CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +146,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,NULL,'2023-09-02','đồ ăn ngon đúng mô tả',5),(2,NULL,'2023-09-02','tất cả đều tốt',2),(3,NULL,'2023-09-02','tạm',4),(4,NULL,'2023-09-03','tệ hại',1);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,10 +166,11 @@ CREATE TABLE `halls` (
   `priceEvening` decimal(10,2) DEFAULT NULL,
   `priceWeekend` decimal(10,2) DEFAULT NULL,
   `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb3_unicode_ci,
   PRIMARY KEY (`hallID`),
   KEY `branchID` (`branchID`),
   CONSTRAINT `halls_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +179,7 @@ CREATE TABLE `halls` (
 
 LOCK TABLES `halls` WRITE;
 /*!40000 ALTER TABLE `halls` DISABLE KEYS */;
-INSERT INTO `halls` VALUES (1,8,'SẢNH PLATIN',10.00,20.00,30.00,100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693319463/fu0uhuymej4adfdo4dvs.jpg'),(3,2,'SẢNH VENUS',20.00,40.00,60.00,80.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392255/rfkql5z5qunxrtep0tgk.jpg'),(5,2,'SẢNH ELITE',40.00,80.00,100.00,120.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392508/oyvqbex14fza9tikfi9f.jpg'),(6,2,'SẢNH MERCURY',10.00,20.00,30.00,40.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398780/hya5vdvommaqdvyrwgzx.jpg'),(7,8,'SẢNH PAVILON',100.00,200.00,300.00,400.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398815/sm1fezantfhzlg73xz9t.jpg'),(8,8,'SẢNH FONTANA',500.00,1000.00,2000.00,3000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398856/vz3dltl8i4d2kw7uhn3w.jpg'),(9,8,'Sảnh bên ngoài',20.00,35.00,41.00,765.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398914/j4ucygox75q9apmfj2cr.jpg');
+INSERT INTO `halls` VALUES (1,8,'SẢNH PLATIN',10.00,20.00,30.00,100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693319463/fu0uhuymej4adfdo4dvs.jpg','Sảnh Platin với kích thước 386 m2 được bày trí theo phong cách Châu Âu sang trọng sẽ thật sự phù hợp cho một hôn lễ ấm cúng với số lượng khách mời trong khoảng 20 đến 26 bàn tiệc. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 1500 khách (150 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.'),(3,2,'SẢNH VENUS',20.00,40.00,60.00,80.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392255/rfkql5z5qunxrtep0tgk.jpg','Sảnh Venus với kích thước sảnh 544 m2 được bày trí theo phong cách Châu Âu sang trọng có sức chứa từ 30 đến 40 bàn tiệc trên nền vàng ấn tượng. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 1500 khách (150 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.'),(5,2,'SẢNH ELITE',40.00,80.00,100.00,120.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693392508/oyvqbex14fza9tikfi9f.jpg','Sảnh Elite với kích thước sảnh 544 m2 được bày trí theo phong cách Châu Âu sang trọng có sức chứa từ 30 đến 40 bàn tiệc trên nền vàng ấn tượng. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 1500 khách (150 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.'),(6,2,'SẢNH MERCURY',10.00,20.00,30.00,40.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398780/hya5vdvommaqdvyrwgzx.jpg','Sảnh Mercury với kích thước sảnh 544 m2 được bày trí theo phong cách Châu Âu sang trọng có sức chứa từ 30 đến 40 bàn tiệc trên nền vàng ấn tượng. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 1500 khách (150 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.'),(7,8,'SẢNH PAVILON',100.00,200.00,300.00,400.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398815/sm1fezantfhzlg73xz9t.jpg','Sảnh Pavilon với kích thước sảnh 544 m2 được bày trí theo phong cách Châu Âu sang trọng có sức chứa từ 30 đến 40 bàn tiệc trên nền xanh độc đáo. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 850 khách (85 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.'),(8,8,'SẢNH FONTANA',500.00,1000.00,2000.00,3000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693847656/xeq0dliwsvuyvyjb2n9y.jpg','Sảnh Fontana với kích thước sảnh 544 m2 được bày trí theo phong cách Châu Âu sang trọng có sức chứa từ 30 đến 40 bàn tiệc trên nền xanh độc đáo. Diện tích sảnh có thể mở rộng linh hoạt với sức chứa lên đến 850 khách (85 bàn) nhằm đáp ứng cho nhiều hình thức và nhu cầu đặt tiệc khác nhau.');
 /*!40000 ALTER TABLE `halls` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +201,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`menuID`),
   KEY `branchID` (`branchID`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +210,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (2,8,'Thit cha cay','Mon an yeu thich cua cac dan nhau',100000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692866511/rputb9smtmiapkxrzzae.jpg',NULL),(3,2,'Tôm sốt me','Ăn ngoan như ăn tôm vậy á mng',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692973032/ruc8yitvobuv2e4eypne.jpg',NULL),(4,2,'Xôi đậu đỏ','xôi được làm từ gạo nếp, thêm vào đó là đậu đỏ để nhìn xôi có màu bắt mắt hơn',10000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693073079/jsb7juu0j3qcdfxjkbf8.jpg',NULL),(10,8,'Gà rán ','qsdahdfaxcbcxvcxvxasdzxczxcda',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398589/p7lgmyl8gdbhaz3njlwz.jpg',NULL),(11,2,'mực xào','muc xao chua ngot sieu to khong lo',300.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398615/f85somdgeeg1yqrc1l20.jpg',NULL);
+INSERT INTO `menu` VALUES (2,8,'Thit cha cay','Mon an yeu thich cua cac dan nhau',100000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692866511/rputb9smtmiapkxrzzae.jpg','2023-09-05 00:00:00'),(3,2,'Tôm sốt me','Ăn ngoan như ăn tôm vậy á mng',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692973032/ruc8yitvobuv2e4eypne.jpg','2023-08-05 00:00:00'),(4,2,'Xôi đậu đỏ','xôi được làm từ gạo nếp, thêm vào đó là đậu đỏ để nhìn xôi có màu bắt mắt hơn',10000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693073079/jsb7juu0j3qcdfxjkbf8.jpg','2023-09-01 00:00:00'),(10,8,'Gà rán ','qsdahdfaxcbcxvcxvxasdzxczxcda',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398589/p7lgmyl8gdbhaz3njlwz.jpg','2023-09-03 00:00:00'),(11,2,'mực xào','muc xao chua ngot sieu to khong lo',300.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398615/f85somdgeeg1yqrc1l20.jpg','2023-09-02 00:00:00');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,13 +253,13 @@ DROP TABLE IF EXISTS `service`;
 CREATE TABLE `service` (
   `serviceID` int NOT NULL AUTO_INCREMENT,
   `branchID` int DEFAULT NULL,
-  `serviceName` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb3_unicode_ci,
+  `serviceName` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
   `price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`serviceID`),
   KEY `branchID` (`branchID`),
   CONSTRAINT `service_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,6 +268,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
+INSERT INTO `service` VALUES (7,9,'Fresh flowers for the party table','Fresh flowers for the party table',1000.00);
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,4 +344,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-01 13:33:17
+-- Dump completed on 2023-09-05 14:50:23

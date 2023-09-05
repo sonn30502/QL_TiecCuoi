@@ -53,4 +53,14 @@ public class BranchServiceImpl implements BranchService {
         return this.branchRepository.addOrUpdateBranch(branch);
     }
 
+    @Override
+    public boolean deleteBranch(int id) {
+        return this.branchRepository.deleteBranch(id);
+    }
+
+    @Override
+    public Long countBranch() {
+        return this.branchRepository.countBranch();
+    }
+
 }

@@ -47,7 +47,8 @@ public class ApiHallsController {
     @RequestMapping("/halls/")
     @CrossOrigin
     public ResponseEntity<List<Halls>> list(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(this.hallsService.getHall(params), HttpStatus.OK);
+        List<Halls> h = hallsService.getHall(params);
+        return new ResponseEntity<>(h, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/halls/{hallID}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -69,7 +70,7 @@ public class ApiHallsController {
         h.setPriceAfternoon(new BigDecimal(params.get("priceAfternoon")));
         h.setPriceEvening(new BigDecimal(params.get("priceEvening")));
         h.setPriceWeekend(new BigDecimal(params.get("priceWeekend")));
-
+        h.setDescription(params.get("description"));
         int branchID = Integer.parseInt(params.get("branchID"));
         h.setBranchID(this.branchService.getBranchById(branchID));
 

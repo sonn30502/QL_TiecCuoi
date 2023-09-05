@@ -17,13 +17,6 @@
 <c:url value="/register" var="action" />
 <form:form action="${action}" method="post" modelAttribute="user" enctype="multipart/form-data">
     <form:hidden path="profileImage" />
-
-    <div class="form-floating mb-3 mt-3">
-      <form:input type="file" class="form-control" 
-                    path="file" id="file" name ="file"  />
-        <label for="file">Ảnh đại diện</label>
-    </div>
-
     <div class="mb-3">
         <label for="firstName" class="form-label">First Name:</label>
         <form:input type="text" class="form-control" id="firstName" path="firstName"/>
@@ -48,6 +41,11 @@
     <div class="mb-3">
         <label for="confirmPassword" class="form-label">Confirm Password:</label>
         <form:input type="password" class="form-control" id="confirm-password" path="confirmPassword"/>
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <form:input type="file" class="form-control" 
+                    path="file" id="file" name ="file"  />
+        <label for="file">Ảnh đại diện</label>
     </div>
     <button type="submit" class="btn btn-primary">Đăng ký</button>
 </form:form>

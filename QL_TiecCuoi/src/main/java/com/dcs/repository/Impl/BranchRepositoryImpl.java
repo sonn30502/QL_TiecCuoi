@@ -15,6 +15,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.dcs.repository.BranchRepository;
+import java.util.Map;
 
 /**
  *
@@ -56,6 +57,23 @@ public class BranchRepositoryImpl implements BranchRepository {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean deleteBranch(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query q = session.createQuery("DELETE FROM Branch WHERE branchID = :id");
+        q.setParameter("id", id);
+        int result = q.executeUpdate();
+        return result > 0;
+    }
+
+    @Override
+    public Long countBranch() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT Count(*) FROM Branch");
+
+        return Long.parseLong(q.getSingleResult().toString());
     }
 
 }

@@ -6,9 +6,14 @@ package com.dcs.repository.Impl;
 
 import com.dcs.pojos.Menu;
 import com.dcs.repository.MenuRepository;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -36,6 +41,9 @@ public class MenuRepositoryImpl implements MenuRepository {
     private LocalSessionFactoryBean factory;
     @Autowired
     private Environment env;
+
+    @Autowired
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     public List<Menu> getMenu(Map<String, String> params) {
@@ -101,15 +109,15 @@ public class MenuRepositoryImpl implements MenuRepository {
     public boolean addOrUpdateMenu(Menu menu) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
+            menu.setCreatedDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
             if (menu.getMenuID() == null) {
                 s.save(menu);
             } else {
                 s.update(menu);
             }
-
             return true;
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

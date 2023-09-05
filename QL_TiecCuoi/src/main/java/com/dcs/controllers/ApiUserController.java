@@ -50,7 +50,7 @@ public class ApiUserController {
 
     @PostMapping("/test/")
     @CrossOrigin(origins = {"127.0.0.1:5500"})
-    public ResponseEntity<String> test(Principal pricipal){
+    public ResponseEntity<String> test(Principal pricipal) {
         return new ResponseEntity<>("SUCCESSFUL", HttpStatus.OK);
     }
 

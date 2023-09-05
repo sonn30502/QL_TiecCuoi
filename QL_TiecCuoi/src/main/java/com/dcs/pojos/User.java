@@ -4,6 +4,7 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -88,12 +89,13 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "userRole")
     private String userRole;
+    @JsonIgnore
     @OneToMany(mappedBy = "userID")
     private Set<Event> eventSet;
 
     @Transient
     private String confirmPassword;
-    
+
     @Transient
     private MultipartFile file;
 
