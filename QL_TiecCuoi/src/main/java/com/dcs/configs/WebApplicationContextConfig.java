@@ -7,6 +7,9 @@ package com.dcs.configs;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.dcs.formatters.BranchFormatter;
+import com.dcs.formatters.HallsFormatter;
+import com.dcs.formatters.MenuFormatter;
+import com.dcs.formatters.ServiceFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +44,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @PropertySource("classpath:configs.properties")
 public class WebApplicationContextConfig implements WebMvcConfigurer {
-    
+
     @Autowired
     private Environment env;
 
@@ -50,10 +53,13 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
             DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-    
+
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new BranchFormatter());
+        registry.addFormatter(new HallsFormatter());
+        registry.addFormatter(new MenuFormatter());
+        registry.addFormatter(new ServiceFormatter());
     }
 
     @Bean

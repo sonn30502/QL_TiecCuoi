@@ -16,6 +16,8 @@ public interface HallsRepository {
 
     List<Halls> getHall(Map<String, String> params);
 
+    List<Halls> getAllHall();
+
     Halls getHallById(int hallID);
 
     boolean addOrUpdateHall(Halls halls);

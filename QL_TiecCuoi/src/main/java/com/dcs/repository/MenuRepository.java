@@ -15,7 +15,9 @@ import java.util.Map;
 public interface MenuRepository {
 
     List<Menu> getMenu(Map<String, String> params);
-    
+
+    List<Menu> getAllMenu();
+
     Long countMenu();
 
     boolean addOrUpdateMenu(Menu menu);

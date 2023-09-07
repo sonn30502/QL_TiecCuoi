@@ -12,6 +12,6 @@ import java.util.List;
  * @author ASUS
  */
 public interface FeedbackService {
-    void updateFeedback(Feedback feedback);
-    List<Feedback> getAllFeedbacks();
+    Feedback addFeedback(Feedback feedback);
+    List<Feedback> getAllFeedbacks(int eventID);
 }

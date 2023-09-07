@@ -5,7 +5,34 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="mt-4 p-5 bg-primary text-white rounded">
-    <h1>Do Cong Son &copy; 2023</h1>
-    <p>Khoa CNTT, Đại học Mở Tp.HCM</p>
-</div>
+<footer class="footer bg-light text-dark py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="mb-3">Thông tin liên hệ</h5>
+                <p>
+                    Chi nhánh 2 Công Ty TNHH TM DV Dìn Ký<br>
+                    Địa chỉ: 142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM<br>
+                    Điện thoại: 028 3811 8181<br>
+                    Email: info@grandpalace.com.vn
+                </p>
+            </div>
+            <div class="col-md-3">
+                <h5 class="mb-3">Giờ làm việc</h5>
+                <p>
+                    Thứ 2 - Thứ 6: 8:00 AM - 10:00 PM<br>
+                    Thứ 7 - Chủ nhật: 9:00 AM - 11:00 PM
+                </p>
+            </div>
+            <div class="col-md-3">
+                <h5 class="mb-1">Theo dõi chúng tôi</h5>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/grandpalace.com.vn/"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="text-center py-3 bg-dark text-white">
+        &copy; 2023 Nhà hàng tiệc cưới Adora. All rights reserved.
+    </div>
+</footer>

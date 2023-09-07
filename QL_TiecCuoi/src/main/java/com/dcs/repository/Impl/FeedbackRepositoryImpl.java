@@ -6,12 +6,9 @@ package com.dcs.repository.Impl;
 
 import com.dcs.pojos.Feedback;
 import com.dcs.repository.FeedbackRepository;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,26 +31,34 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
     private SimpleDateFormat simpleDateFormat;
 
     @Override
-    public void updateFeedback(Feedback feedback) {
+    public Feedback addFeedback(Feedback feedback) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
-            feedback.setFeedbackDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
-            if (feedback.getFeedbackID() == null) {
-                s.save(feedback);
-            } else {
-                s.update(feedback);
-            }
-        } catch (ParseException ex) {
-            Logger.getLogger(FeedbackRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            s.save(feedback);
+            return feedback;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return null;
         }
+//        try {
+//            feedback.setFeedbackDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+//            if (feedback.getFeedbackID() == null) {
+//                s.save(feedback);
+//            } else {
+//                s.update(feedback);
+//            }
+//        } catch (ParseException ex) {
+//            Logger.getLogger(FeedbackRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     @Override
-    public List<Feedback> getAllFeedbacks() {
+    public List<Feedback> getAllFeedbacks(int eventID) {
         Session session = this.factory.getObject().getCurrentSession();
-        Query<Feedback> query = session.createQuery("FROM Feedback", Feedback.class);
-        List<Feedback> feedbacks = query.getResultList();
-        return feedbacks;
+        Query query = session.createQuery("FROM Feedback f WHERE f.eventID.eventID = :eventID");
+        query.setParameter("eventID", eventID);
+
+        return query.getResultList();
     }
 
 }

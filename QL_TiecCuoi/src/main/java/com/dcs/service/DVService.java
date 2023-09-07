@@ -15,6 +15,8 @@ import java.util.Map;
 public interface DVService {
 
     List<Service> getAllService(Map<String, String> params);
+    
+    List<Service> getService();
 
     Service getServiceById(int serviceID);
 

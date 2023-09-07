@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface FeedbackRepository {
 
-    void updateFeedback(Feedback feedback);
+    Feedback addFeedback(Feedback feedback);
 
-    List<Feedback> getAllFeedbacks();
+    List<Feedback> getAllFeedbacks(int eventID);
 }

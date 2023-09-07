@@ -55,6 +55,9 @@ public class Feedback implements Serializable {
     @JoinColumn(name = "eventID", referencedColumnName = "eventID")
     @ManyToOne
     private Event eventID;
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private User userID;
 
     public Feedback() {
     }
@@ -127,5 +130,21 @@ public class Feedback implements Serializable {
     public String toString() {
         return "com.dcs.pojos.Feedback[ feedbackID=" + feedbackID + " ]";
     }
-    
+
+    /**
+     * @return the userID
+     */
+    public User getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(User userID) {
+        this.userID = userID;
+    }
+
+   
+
 }

@@ -16,6 +16,8 @@ public interface MenuService {
 
     List<Menu> getMenu(Map<String, String> params);
     
+    List<Menu> getAllMenu();
+    
     Long countMenu();
 
     boolean addOrUpdateMenu(Menu menu);

@@ -64,12 +64,16 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/halls/").permitAll();
         http.authorizeRequests().antMatchers("/api/menu/").permitAll();
-//        http.authorizeRequests().antMatchers("/api/menu/{menuID}/").permitAll();
+        http.authorizeRequests().antMatchers("/api/service/").permitAll();
         http.authorizeRequests().antMatchers("/api/menu/**").permitAll();
-//        http.authorizeRequests().antMatchers("/api/branch/").permitAll();
+        http.authorizeRequests().antMatchers("/api/branch/").permitAll();
+        http.authorizeRequests().antMatchers("/api/branch/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/service/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/").permitAll();
+        http.authorizeRequests().antMatchers("/api/event/").permitAll();
+        http.authorizeRequests().antMatchers("/api/event/**").permitAll();
 //       
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comments/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/feedback/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")

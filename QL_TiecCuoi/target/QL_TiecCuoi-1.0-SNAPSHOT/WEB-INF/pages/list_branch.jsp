@@ -29,7 +29,7 @@
             <tr>
                 <th></th>
                 <th>ID</th>
-                <th>Tên sảnh</th>
+                <th>Tên chi nhánh</th>
                 <th>Địa chỉ</th>
                 <th>SDT</th>
                 <th></th>

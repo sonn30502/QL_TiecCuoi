@@ -12,9 +12,11 @@ com\dcs\repository\HallsRepository.class
 com\dcs\pojos\Payment_.class
 com\dcs\filters\CustomAccessDeniedHandler.class
 com\dcs\service\HallsService.class
+com\dcs\formatters\HallsFormatter.class
 com\dcs\repository\MenuRepository.class
 com\dcs\repository\DVRepository.class
 com\dcs\pojos\Statistic.class
+com\dcs\formatters\MenuFormatter.class
 com\dcs\pojos\Statistic_.class
 com\dcs\repository\BranchRepository.class
 com\dcs\pojos\Event.class
@@ -33,7 +35,6 @@ com\dcs\components\JwtService.class
 com\dcs\repository\FeedbackRepository.class
 com\dcs\controllers\ApiHallsController.class
 com\dcs\pojos\Booking_.class
-com\dcs\pojos\Event$EventStatus.class
 com\dcs\pojos\Payment.class
 com\dcs\controllers\HallsController.class
 com\dcs\repository\Impl\FeedbackRepositoryImpl.class
@@ -42,8 +43,9 @@ com\dcs\pojos\Menu.class
 com\dcs\service\Impl\UserServiceImpl.class
 com\dcs\controllers\ApiUserController.class
 com\dcs\configs\DispatcherServletInitializer.class
+com\dcs\controllers\ApiEventController.class
 com\dcs\service\EventService.class
-FeedbackRepositoryImpl.class
+com\dcs\controllers\ApiDVController.class
 com\dcs\filters\RestAuthenticationEntryPoint.class
 com\dcs\pojos\Booking.class
 com\dcs\pojos\Branch_.class
@@ -62,6 +64,7 @@ com\dcs\configs\SecurityWebApplicationInitializer.class
 com\dcs\controllers\DVController.class
 com\dcs\service\MenuService.class
 com\dcs\repository\UserRepository.class
+com\dcs\formatters\ServiceFormatter.class
 com\dcs\configs\WebApplicationContextConfig.class
 com\dcs\controllers\BranchController.class
 com\dcs\pojos\Branch.class

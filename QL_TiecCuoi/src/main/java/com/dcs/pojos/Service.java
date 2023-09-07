@@ -4,6 +4,8 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.awt.Image;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -20,9 +22,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -37,6 +41,20 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Service.findByServiceName", query = "SELECT s FROM Service s WHERE s.serviceName = :serviceName"),
     @NamedQuery(name = "Service.findByPrice", query = "SELECT s FROM Service s WHERE s.price = :price")})
 public class Service implements Serializable {
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,13 +72,21 @@ public class Service implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "price")
     private BigDecimal price;
+    @JsonIgnore
     @OneToMany(mappedBy = "serviceID")
     private Set<Booking> bookingSet;
     @JoinColumn(name = "branchID", referencedColumnName = "branchID")
     @ManyToOne
     private Branch branchID;
+    @JsonIgnore
     @OneToMany(mappedBy = "serviceID")
     private Set<Event> eventSet;
+    @Size(max = 200)
+    @Column(name = "image")
+    private String image;
+    
+    @Transient
+    private MultipartFile file;
 
     public Service() {
     }
@@ -151,5 +177,19 @@ public class Service implements Serializable {
     public String toString() {
         return "com.dcs.pojos.Service[ serviceID=" + serviceID + " ]";
     }
-    
+
+    /**
+     * @return the image
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

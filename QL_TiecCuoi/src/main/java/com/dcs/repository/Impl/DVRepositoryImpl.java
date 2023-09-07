@@ -160,4 +160,11 @@ public class DVRepositoryImpl implements DVRepository {
         return query.uniqueResult() != null;
     }
 
+    @Override
+    public List<Service> getService() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM Service");
+        return q.getResultList();
+    }
+
 }

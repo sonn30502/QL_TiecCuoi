@@ -63,4 +63,9 @@ public class HallsServiceImpl implements HallsService {
         return this.hallsRepository.deleteHall(id);
     }
 
+    @Override
+    public List<Halls> getAllHall() {
+        return this.hallsRepository.getAllHall();
+    }
+
 }

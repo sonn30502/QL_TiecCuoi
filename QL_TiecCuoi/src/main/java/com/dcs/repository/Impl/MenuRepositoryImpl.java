@@ -19,7 +19,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -135,5 +134,12 @@ public class MenuRepositoryImpl implements MenuRepository {
         q.setParameter("id", id);
         int result = q.executeUpdate();
         return result > 0;
+    }
+
+    @Override
+    public List<Menu> getAllMenu() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM Menu");
+        return q.getResultList();
     }
 }

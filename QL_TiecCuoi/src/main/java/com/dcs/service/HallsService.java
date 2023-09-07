@@ -15,6 +15,8 @@ import java.util.Map;
 public interface HallsService {
 
     List<Halls> getHall(Map<String, String> params);
+    
+    List<Halls> getAllHall();
 
     Halls getHallById(int hallID);
 

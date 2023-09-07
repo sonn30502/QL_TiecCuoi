@@ -62,4 +62,9 @@ public class MenuServiceImpl implements MenuService{
     public Long countMenu() {
         return this.menuRepository.countMenu();
     }
+
+    @Override
+    public List<Menu> getAllMenu() {
+        return this.menuRepository.getAllMenu();
+    }
 }

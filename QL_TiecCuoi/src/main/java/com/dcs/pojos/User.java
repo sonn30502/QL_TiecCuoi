@@ -89,9 +89,6 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "userRole")
     private String userRole;
-    @JsonIgnore
-    @OneToMany(mappedBy = "userID")
-    private Set<Event> eventSet;
 
     @Transient
     private String confirmPassword;
@@ -187,19 +184,10 @@ public class User implements Serializable {
         this.userRole = userRole;
     }
 
-    @XmlTransient
-    public Set<Event> getEventSet() {
-        return eventSet;
-    }
-
-    public void setEventSet(Set<Event> eventSet) {
-        this.eventSet = eventSet;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userID != null ? userID.hashCode() : 0);
+        hash += (getUserID() != null ? getUserID().hashCode() : 0);
         return hash;
     }
 
@@ -210,7 +198,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.userID == null && other.userID != null) || (this.userID != null && !this.userID.equals(other.userID))) {
+        if ((this.getUserID() == null && other.getUserID() != null) || (this.getUserID() != null && !this.userID.equals(other.userID))) {
             return false;
         }
         return true;
@@ -218,7 +206,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dcs.pojos.User[ userID=" + userID + " ]";
+        return "com.dcs.pojos.User[ userID=" + getUserID() + " ]";
     }
 
     /**

@@ -140,4 +140,11 @@ public class HallsRepositoryImpl implements HallsRepository {
         return result > 0;
     }
 
+    @Override
+    public List<Halls> getAllHall() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM Halls");
+        return q.getResultList();
+    }
+
 }

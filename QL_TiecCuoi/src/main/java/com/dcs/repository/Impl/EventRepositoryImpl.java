@@ -5,7 +5,6 @@
 package com.dcs.repository.Impl;
 
 import com.dcs.pojos.Event;
-import static com.dcs.pojos.Event_.hallID;
 import com.dcs.repository.EventRepository;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -42,17 +41,19 @@ public class EventRepositoryImpl implements EventRepository {
     private SimpleDateFormat simpleDateFormat;
 
     @Override
-    public void addOrUpdateEvent(Event event) {
+    public boolean addOrUpdateEvent(Event event) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
-            event.setFeedbackDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
+            event.setEventDate(simpleDateFormat.parse(simpleDateFormat.format(new Date())));
             if (event.getEventID() == null) {
                 s.save(event);
             } else {
                 s.update(event);
             }
+            return true;
         } catch (ParseException ex) {
             Logger.getLogger(EventRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 
@@ -63,49 +64,62 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public void deleteEvent(Event event) {
+    public boolean deleteEvent(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        s.delete(event);
+        Query q = s.createQuery("DELETE FROM Halls WHERE eventID = :id");
+        q.setParameter("id", id);
+        int result = q.executeUpdate();
+        return result > 0;
     }
 
     @Override
-    public List<Event> searchEventsByCriteria(Map<String, Object> criteria) {
+    public List<Event> getEvent(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Event> query = builder.createQuery(Event.class);
-        Root<Event> root = query.from(Event.class);
+        Root root = query.from(Event.class);
         query.select(root);
 
-        List<Predicate> predicates = new ArrayList<>();
+        if (params != null) {
+            List<Predicate> predicates = new ArrayList<>();
 
-        // Tìm kiếm theo sảnh
-        if (criteria.containsKey("hallID")) {
-            int hallID = (int) criteria.get("hallID");
-            Predicate hallPredicate = builder.equal(root.get("hallID"), hallID);
-            predicates.add(hallPredicate);
+            String kw = params.get("kw");
+            if (kw != null && !kw.isEmpty()) {
+                predicates.add(builder.like(root.get("eventName"), String.format("%%%s%%", kw)));
+            }
+
+//        // Tìm kiếm theo sảnh
+//        if (params.containsKey("hallID")) {
+//            int hallID = (int) params.get("hallID");
+//            Predicate hallPredicate = builder.equal(root.get("hallID"), hallID);
+//            predicates.add(hallPredicate);
+//        }
+//
+//        // Tìm kiếm theo giá
+//        if (params.containsKey("price")) {
+//            BigDecimal price = (BigDecimal) params.get("price");
+//            Predicate pricePredicate = builder.equal(root.get("totalPrice"), price);
+//            predicates.add(pricePredicate);
+//        }
+//
+//        // Tìm kiếm theo ngày tổ chức
+//        if (params.containsKey("eventDate")) {
+//            Date eventDate = (Date) params.get("eventDate");
+//            Predicate datePredicate = builder.equal(root.get("eventDate"), eventDate);
+//            predicates.add(datePredicate);
+//        }
+//            if (!predicates.isEmpty()) {
+//                Predicate finalPredicate = builder.and(predicates.toArray(new Predicate[0]));
+//                query.where(finalPredicate);
+//            }
+            query.where(builder.and(predicates.toArray(new Predicate[0])));
         }
 
-        // Tìm kiếm theo giá
-        if (criteria.containsKey("price")) {
-            BigDecimal price = (BigDecimal) criteria.get("price");
-            Predicate pricePredicate = builder.equal(root.get("totalPrice"), price);
-            predicates.add(pricePredicate);
-        }
+        query.orderBy(builder.asc(root.get("eventID")));
+        Query q = session.createQuery(query);
 
-        // Tìm kiếm theo ngày tổ chức
-        if (criteria.containsKey("eventDate")) {
-            Date eventDate = (Date) criteria.get("eventDate");
-            Predicate datePredicate = builder.equal(root.get("eventDate"), eventDate);
-            predicates.add(datePredicate);
-        }
-
-        if (!predicates.isEmpty()) {
-            Predicate finalPredicate = builder.and(predicates.toArray(new Predicate[0]));
-            query.where(finalPredicate);
-        }
-
-        List<Event> events = session.createQuery(query).getResultList();
-        return events;
+//        List<Event> events = session.createQuery(query).getResultList();
+        return q.getResultList();
     }
 
     @Override
@@ -113,6 +127,15 @@ public class EventRepositoryImpl implements EventRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("FROM Event");
         return q.getResultList();
+    }
+
+    @Override
+    public Long countEvent() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT Count(*) FROM Event");
+
+        return Long.parseLong(q.getSingleResult().toString());
+
     }
 
 }

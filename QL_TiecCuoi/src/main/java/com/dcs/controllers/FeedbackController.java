@@ -39,7 +39,7 @@ public class FeedbackController {
     public String addFeedback(Model model, @ModelAttribute(value = "feedback") @Valid Feedback feedback,
             BindingResult rs) {
         if (!rs.hasErrors()) {
-            feedbackService.updateFeedback(feedback);
+            feedbackService.addFeedback(feedback);
             return "redirect:/feedbacks";
         } else {
             model.addAttribute("eventList", eventService.getAllEvent());

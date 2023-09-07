@@ -4,6 +4,7 @@
  */
 package com.dcs.pojos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,8 +12,6 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +23,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.security.core.Transient;
 
 /**
  *
@@ -38,6 +37,7 @@ import org.springframework.security.core.Transient;
 @NamedQueries({
     @NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e"),
     @NamedQuery(name = "Event.findByEventID", query = "SELECT e FROM Event e WHERE e.eventID = :eventID"),
+    @NamedQuery(name = "Event.findByEventName", query = "SELECT e FROM Event e WHERE e.eventName = :eventName"),
     @NamedQuery(name = "Event.findByEventDate", query = "SELECT e FROM Event e WHERE e.eventDate = :eventDate"),
     @NamedQuery(name = "Event.findByTotalPrice", query = "SELECT e FROM Event e WHERE e.totalPrice = :totalPrice"),
     @NamedQuery(name = "Event.findByStatus", query = "SELECT e FROM Event e WHERE e.status = :status")})
@@ -55,14 +55,16 @@ public class Event implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "totalPrice")
     private BigDecimal totalPrice;
-//    @Size(max = 100)
+    @Size(max = 200)
     @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private com.dcs.pojos.Event.EventStatus status;
+    private String status;
     @OneToMany(mappedBy = "eventID")
+    @JsonIgnore
     private Set<Feedback> feedbackSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "eventID")
     private Set<Booking> bookingSet;
+    @JsonIgnore
     @OneToMany(mappedBy = "eventID")
     private Set<Payment> paymentSet;
     @JoinColumn(name = "branchID", referencedColumnName = "branchID")
@@ -77,20 +79,8 @@ public class Event implements Serializable {
     @JoinColumn(name = "serviceID", referencedColumnName = "serviceID")
     @ManyToOne
     private Service serviceID;
-    @JoinColumn(name = "userID", referencedColumnName = "userID")
-    @ManyToOne
-    private User userID;
-
-    public void setFeedbackDate(Date parse) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Transient
-    public enum EventStatus {
-        CONFIRMED,
-        PENDING,
-        CANCELLED
-    }
+    @Column(name = "eventName")
+    private String eventName;
 
     public Event() {
     }
@@ -182,14 +172,6 @@ public class Event implements Serializable {
         this.serviceID = serviceID;
     }
 
-    public User getUserID() {
-        return userID;
-    }
-
-    public void setUserID(User userID) {
-        this.userID = userID;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -216,17 +198,31 @@ public class Event implements Serializable {
     }
 
     /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
      * @param status the status to set
      */
-    public void setStatus(EventStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
     /**
-     * @return the status
+     * @return the eventName
      */
-    public EventStatus getStatus() {
-        return status;
+    public String getEventName() {
+        return eventName;
+    }
+
+    /**
+     * @param eventName the eventName to set
+     */
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
 }

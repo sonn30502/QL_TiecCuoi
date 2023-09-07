@@ -16,6 +16,8 @@ public interface DVRepository {
 
     List<Service> getAllService(Map<String, String> params);
 
+    List<Service> getService();
+
     Service getServiceById(int serviceID);
 
     boolean addOrUpdateService(Service serivce);

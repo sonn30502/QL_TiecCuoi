@@ -14,13 +14,15 @@ import java.util.Map;
  */
 public interface EventRepository {
 
-    void addOrUpdateEvent(Event event);
+    boolean addOrUpdateEvent(Event event);
 
     Event getEventById(int eventID);
 
-    void deleteEvent(Event event);
+    boolean deleteEvent(int id);
 
-    List<Event> searchEventsByCriteria(Map<String, Object> criteria);
+    List<Event> getEvent(Map<String, String> params);
     
     List<Event> getAllEvent();
+    
+    Long countEvent();
 }

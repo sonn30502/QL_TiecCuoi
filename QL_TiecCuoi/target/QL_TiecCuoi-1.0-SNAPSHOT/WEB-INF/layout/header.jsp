@@ -56,9 +56,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value='/list_service' />">Dịch vụ</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value='/list_event' />">Tiệc cưới</a>
+                </li>
             </ul>
 
-            <form class="d-flex" action="<c:url value='/list_service' />">
+            <form class="d-flex" action="<c:url value='/list_event' />">
                 <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </form>

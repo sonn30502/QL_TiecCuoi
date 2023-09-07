@@ -11,9 +11,10 @@
 <h1 class="text-center text-info mt-1">QUẢN LÝ DỊCH VỤ</h1>
 
 <c:url value="/service" var="action" />
-<form:form method="post" action="${action}" modelAttribute="service">
+<form:form method="post" action="${action}" modelAttribute="service" enctype="multipart/form-data">
     <form:errors path="*" element="div" cssClass="alert alert-danger" />
     <form:hidden path="serviceID" />
+    <form:hidden path="image" />
     <div class="form-floating mb-3 mt-3">
         <form:input type="text" class="form-control" 
                     path="serviceName" id="serviceName" placeholder="Tên dịch vụ..." />
@@ -46,6 +47,15 @@
             </c:forEach>
         </form:select>
         <label for="branch" class="form-label">Chi nhánh:</label>
+    </div>
+
+    <div class="form-floating mb-3 mt-3">
+        <form:input type="file" class="form-control" 
+                    path="file" id="file"  />
+        <label for="file">Ảnh</label>
+        <c:if test="${service.image != null}">
+            <img src="${service.image}" width="120" />
+        </c:if>
     </div>
     <div class="form-floating mb-3 mt-3">
         <button class="btn btn-info" type="submit">

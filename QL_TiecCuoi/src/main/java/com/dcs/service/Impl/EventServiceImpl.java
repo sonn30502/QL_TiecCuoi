@@ -23,8 +23,8 @@ public class EventServiceImpl implements EventService {
     private EventRepository eventRepository;
 
     @Override
-    public void addOrUpdateEvent(Event event) {
-        this.eventRepository.addOrUpdateEvent(event);
+    public boolean addOrUpdateEvent(Event event) {
+        return this.eventRepository.addOrUpdateEvent(event);
     }
 
     @Override
@@ -33,18 +33,23 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void deleteEvent(Event event) {
-        this.eventRepository.deleteEvent(event);
+    public boolean deleteEvent(int id) {
+        return this.eventRepository.deleteEvent(id);
     }
 
     @Override
-    public List<Event> searchEventsByCriteria(Map<String, Object> criteria) {
-        return this.eventRepository.searchEventsByCriteria(criteria);
+    public List<Event> getEvent(Map<String, String> params) {
+        return this.eventRepository.getEvent(params);
     }
 
     @Override
     public List<Event> getAllEvent() {
         return this.eventRepository.getAllEvent();
+    }
+
+    @Override
+    public Long countEvent() {
+        return this.eventRepository.countEvent();
     }
 
 }

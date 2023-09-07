@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.dcs.service.BranchService;
 import com.dcs.service.DVService;
+import com.dcs.service.EventService;
 import com.dcs.service.HallsService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,8 @@ public class IndexController {
 
     @Autowired
     private DVService dvService;
+    
+    @Autowired EventService eventService;
 
     @Autowired
     private Environment env;
@@ -88,5 +91,15 @@ public class IndexController {
         long count = this.dvService.countService();
         model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
         return "list_service";
+    }
+
+    @GetMapping("/list_event")
+    public String list_event(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("event", this.eventService.getEvent(params));
+
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.eventService.countEvent();
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        return "list_event";
     }
 }
