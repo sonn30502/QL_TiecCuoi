@@ -68,7 +68,7 @@ CREATE TABLE `branch` (
   `phoneNumber` varchar(20) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `image` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `branch` (
 
 LOCK TABLES `branch` WRITE;
 /*!40000 ALTER TABLE `branch` DISABLE KEYS */;
-INSERT INTO `branch` VALUES (2,'THE ADORA CENTER','431 Hoàng Văn Thụ, Phường 4, Quận Tân Bình','18001001','https://res.cloudinary.com/da7tpv6qw/image/upload/v1692969358/mv2zk3uqb2lnc8pacdzn.jpg'),(8,'GRAND PALACE','142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM','18001002','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693322240/lvvnta5xikzegg2gpjgy.jpg'),(9,'THE ADORA ATHENA','371 Nguyễn Kiệm, Phường 3, Quận Gò Vấp','18001003','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693581444/dols5dvjcwfxeaqojs3u.jpg');
+INSERT INTO `branch` VALUES (2,'THE ADORA CENTER','431 Hoàng Văn Thụ, Phường 4, Quận Tân Bình','18001001','https://res.cloudinary.com/da7tpv6qw/image/upload/v1692969358/mv2zk3uqb2lnc8pacdzn.jpg'),(8,'GRAND PALACE','142/18 Cộng Hòa, P.4, Q.Tân Bình, TP.HCM','18001002','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693322240/lvvnta5xikzegg2gpjgy.jpg'),(9,'THE ADORA ATHENA','371 Nguyễn Kiệm, Phường 3, Quận Gò Vấp','18001003','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693581444/dols5dvjcwfxeaqojs3u.jpg'),(10,'THE ADORA LUXURY','198 Hoàng Văn Thụ, Phường 9, Quận Phú Nhuận','18001004','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693971238/a3wepp5ccf1c8g2qddbl.jpg'),(11,'THE ADORA DYNASTY','1A Tôn Thất Tùng, Phường Phạm Ngũ Lão, Quận 1','18001005','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693971263/ay1fr8thzkeelaxhtlfn.jpg'),(12,'THE ADORA GRANDVIEW','421 Ngô Gia Tự, Phường 9, Quận 5','18001006','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693971283/dszgdgvayjkyprr5pk2j.jpg'),(13,'THE ADORA PREMIUM','803 Nguyễn Văn Linh, Phường Tân Phú, Quận 7','18001007','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693971306/b9rz4oqnqmmwcyhamsad.jpg');
 /*!40000 ALTER TABLE `branch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,22 +94,20 @@ CREATE TABLE `event` (
   `hallID` int DEFAULT NULL,
   `menuID` int DEFAULT NULL,
   `serviceID` int DEFAULT NULL,
-  `userID` int DEFAULT NULL,
   `eventDate` date DEFAULT NULL,
   `totalPrice` decimal(10,2) DEFAULT NULL,
-  `status` enum('Đã xác nhận','Chưa xác nhận','Đã hủy') COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `status` varchar(200) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `eventName` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`eventID`),
   KEY `branchID` (`branchID`),
   KEY `hallID` (`hallID`),
   KEY `menuID` (`menuID`),
   KEY `serviceID` (`serviceID`),
-  KEY `userID` (`userID`),
   CONSTRAINT `event_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`),
   CONSTRAINT `event_ibfk_2` FOREIGN KEY (`hallID`) REFERENCES `halls` (`hallID`),
   CONSTRAINT `event_ibfk_3` FOREIGN KEY (`menuID`) REFERENCES `menu` (`menuID`),
-  CONSTRAINT `event_ibfk_4` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`),
-  CONSTRAINT `event_ibfk_5` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+  CONSTRAINT `event_ibfk_4` FOREIGN KEY (`serviceID`) REFERENCES `service` (`serviceID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +116,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
+INSERT INTO `event` VALUES (1,13,6,19,7,'2023-09-07',100.00,'co san','ghn'),(2,2,1,2,7,'2023-09-07',200.00,'co san 1000','dcs ');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,13 +130,16 @@ DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
   `feedbackID` int NOT NULL AUTO_INCREMENT,
   `eventID` int DEFAULT NULL,
+  `userID` int DEFAULT NULL,
   `feedbackDate` date DEFAULT NULL,
-  `feedbackContent` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
+  `feedbackContent` text COLLATE utf8mb3_unicode_ci,
   `rating` int DEFAULT NULL,
   PRIMARY KEY (`feedbackID`),
   KEY `eventID` (`eventID`),
-  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `userID` (`userID`),
+  CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`eventID`) REFERENCES `event` (`eventID`),
+  CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +148,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,NULL,'2023-09-02','đồ ăn ngon đúng mô tả',5),(2,NULL,'2023-09-02','tất cả đều tốt',2),(3,NULL,'2023-09-02','tạm',4),(4,NULL,'2023-09-03','tệ hại',1);
+INSERT INTO `feedback` VALUES (1,1,1,'2023-09-07','nhà hàng phục vụ tốt, trang trí đẹp, đồ ăn ngon tưới sốt',5),(2,1,7,'2023-09-07','đồ ăn dở, phục vụ chưa được ứng ý ',2),(3,2,1,'2023-09-06','tạm ổn, so với mặt bằng chung, dịch vụ tốt..',4),(4,2,1,'2023-09-05','đồ ăn không được tươi ngon, sảnh cưới trang trí nhất bắt mắt.',4);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +203,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`menuID`),
   KEY `branchID` (`branchID`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +212,7 @@ CREATE TABLE `menu` (
 
 LOCK TABLES `menu` WRITE;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (2,8,'Thit cha cay','Mon an yeu thich cua cac dan nhau',100000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692866511/rputb9smtmiapkxrzzae.jpg','2023-09-05 00:00:00'),(3,2,'Tôm sốt me','Ăn ngoan như ăn tôm vậy á mng',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1692973032/ruc8yitvobuv2e4eypne.jpg','2023-08-05 00:00:00'),(4,2,'Xôi đậu đỏ','xôi được làm từ gạo nếp, thêm vào đó là đậu đỏ để nhìn xôi có màu bắt mắt hơn',10000.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693073079/jsb7juu0j3qcdfxjkbf8.jpg','2023-09-01 00:00:00'),(10,8,'Gà rán ','qsdahdfaxcbcxvcxvxasdzxczxcda',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398589/p7lgmyl8gdbhaz3njlwz.jpg','2023-09-03 00:00:00'),(11,2,'mực xào','muc xao chua ngot sieu to khong lo',300.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693398615/f85somdgeeg1yqrc1l20.jpg','2023-09-02 00:00:00');
+INSERT INTO `menu` VALUES (2,8,'SWEET LOVE','Đặc biệt ngon của nhà hàng món new.',10.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970363/zrjk1nymvhe4uqhvzbu7.jpg','2023-09-06 00:00:00'),(3,2,'GỎI TÔM THÁI TÂY THI','Ăn ngoan như ăn tôm vậy á mng',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970409/dwk9rmcesur1n9wkpzfs.jpg','2023-09-06 00:00:00'),(4,2,'CÁ CUỘN BACON ĐÚT LÒ SỐT BBQ MẬT ONG','CÁ CUỘN BACON ĐÚT LÒ SỐT BBQ MẬT ONG',500.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970533/fjootiwzbdawex9thzr9.jpg','2023-09-06 00:00:00'),(10,8,'CÁ HỒI HẤP TAM SẮC SỐT THƯỢNG HẠNG','CÁ HỒI HẤP TAM SẮC SỐT THƯỢNG HẠNG',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970582/sghuchikdanunfz9eqxd.jpg','2023-09-06 00:00:00'),(11,2,'CÁC BỚP ĐÚT LÒ SỐT TERIYAKI','CÁC BỚP ĐÚT LÒ SỐT TERIYAKI',300.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970617/eg589qfekoquhyspwt81.jpg','2023-09-06 00:00:00'),(15,8,'CUA LỘT SỐT CHANH DÂY','món ăn đặt sản của nhà hàng',500.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970478/cdpwkisk2ejgg9uipyk5.jpg','2023-09-06 00:00:00'),(16,2,'CÁ BỐNG MÚ HẤP HỒNG KÔNG','CÁC BỚP ĐÚT LÒ SỐT TERIYAKI',100.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970692/uvc2d8rn9zfzfv4m9vx4.jpg','2023-09-06 00:00:00'),(17,2,'BÒ HẦM RƯỢU VANG','BÒ HẦM RƯỢU VANG',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970723/hrmjv0xauejuq8lglq98.jpg','2023-09-06 00:00:00'),(18,8,'BỒ CÂU QUAY','BỒ CÂU QUAY',50.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970745/svlh707fbrkkiqiu3gl3.jpg','2023-09-06 00:00:00'),(19,9,'CHẢ GIÒ GRAND PALACE','CHẢ GIÒ GRAND PALACE',70.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970770/ryqr9st3cg1suexrgvmg.jpg','2023-09-06 00:00:00'),(20,8,'MÌ XÀO SA TẾ TÔM','MÌ XÀO SA TẾ TÔM',40.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970795/wsyksyvomhqv5qf60vur.jpg','2023-09-06 00:00:00'),(21,8,'CƠM CHIÊN GÀ QUAY LÁ É ','CƠM CHIÊN GÀ QUAY LÁ É ',150.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693970815/z5ra2liwas9sm4vevxfu.jpg','2023-09-06 00:00:00');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,10 +258,11 @@ CREATE TABLE `service` (
   `serviceName` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
   `price` decimal(10,2) DEFAULT NULL,
+  `image` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`serviceID`),
   KEY `branchID` (`branchID`),
   CONSTRAINT `service_ibfk_1` FOREIGN KEY (`branchID`) REFERENCES `branch` (`branchID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +271,7 @@ CREATE TABLE `service` (
 
 LOCK TABLES `service` WRITE;
 /*!40000 ALTER TABLE `service` DISABLE KEYS */;
-INSERT INTO `service` VALUES (7,9,'Fresh flowers for the party table','Fresh flowers for the party table',1000.00);
+INSERT INTO `service` VALUES (7,9,'Fresh flowers for the party table','Fresh flowers for the party table',1000.00,NULL),(8,12,'trang tri tie','set up san khau, ban an..v.v',200.00,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1694105380/gchfx1uzzvgmxvz6ddjp.jpg');
 /*!40000 ALTER TABLE `service` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,7 +325,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`userID`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -331,7 +334,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Son','DC','son111@gmail.com',NULL,NULL,'dcs111','$2a$10$5pQ1TFjM5M4sW6zjvpOTn.pcmf02/.Ev4RT1P5/zkW8YiUIQ5Z4iy','ROLE_USER'),(2,'son','dc','dcson123@gmail.com',NULL,NULL,'dcsAdmin','$2a$10$cPjXr7uQbaAb571rx4T09O75zBycYhj18HgPYFVS5d3sxy.qkVFye','ROLE_ADMIN'),(3,'Há»','Ngá»c Giang','giangho123@gmail.com',NULL,NULL,'giangAdmin','$2a$10$vJvc3Q2V24AbeDcikW3DsO9f/TCykNNjqm63QFBk9n4ZP2FYhA3AO','ROLE_ADMIN'),(6,'dc','s','dcs2@gmail.com',NULL,'','dcs2','$2a$10$rFN0aHCd.atjdfKPL3FL/eT4okJnOTqzuDy.TgUPPzoAM4T5sj4Xu','ROLE_ADMIN'),(7,'n','dcs','sonn@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693301719/k4uhazrc13twebo1i5k3.png','sonn','$2a$10$MiRv6Lqlm/ofj7UsEjafAuqnJSv6ZiO7U01jywzg.rpVPtjWK9CM2','ROLE_USER'),(8,'Hồ Ngọc','Giang','ghn123@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693499987/pdwhpf8nz7te0njxq5ld.jpg','ghn123','$2a$10$VTnxFivVf7Ck2Qu4OnZU2e0TFtu2RQqHDopBf3T.JSo7ewKrsJ/hq','ROLE_USER');
+INSERT INTO `user` VALUES (1,'Son','DC','son111@gmail.com',NULL,NULL,'dcs111','$2a$10$5pQ1TFjM5M4sW6zjvpOTn.pcmf02/.Ev4RT1P5/zkW8YiUIQ5Z4iy','ROLE_USER'),(2,'son','dc','dcson123@gmail.com',NULL,NULL,'dcsAdmin','$2a$10$cPjXr7uQbaAb571rx4T09O75zBycYhj18HgPYFVS5d3sxy.qkVFye','ROLE_ADMIN'),(3,'Há»','Ngá»c Giang','giangho123@gmail.com',NULL,NULL,'giangAdmin','$2a$10$vJvc3Q2V24AbeDcikW3DsO9f/TCykNNjqm63QFBk9n4ZP2FYhA3AO','ROLE_ADMIN'),(6,'dc','s','dcs2@gmail.com',NULL,'','dcs2','$2a$10$rFN0aHCd.atjdfKPL3FL/eT4okJnOTqzuDy.TgUPPzoAM4T5sj4Xu','ROLE_ADMIN'),(7,'n','dcs','sonn@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693301719/k4uhazrc13twebo1i5k3.png','sonn','$2a$10$MiRv6Lqlm/ofj7UsEjafAuqnJSv6ZiO7U01jywzg.rpVPtjWK9CM2','ROLE_USER'),(8,'Hồ Ngọc','Giang','ghn123@gmail.com',NULL,'https://res.cloudinary.com/da7tpv6qw/image/upload/v1693499987/pdwhpf8nz7te0njxq5ld.jpg','ghn123','$2a$10$VTnxFivVf7Ck2Qu4OnZU2e0TFtu2RQqHDopBf3T.JSo7ewKrsJ/hq','ROLE_USER'),(9,'John','Doe',' john.doe@example.com','123456789','https://res.cloudinary.com/da7tpv6qw/image/upload/v1693973143/hxtkjre65jmcnsjzmjdl.png','johndoe','$2a$10$bDpmulfRFK35Kj4nx1Sgi.dp2OwoQpK9n7CNDH7/GBiN72Sfg8iIe','ROLE_USER');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -344,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-05 14:50:23
+-- Dump completed on 2023-09-08 21:42:11
